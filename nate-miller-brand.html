@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nate Miller — Personal Brand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================
+   VIEWPORT FITTING: MANDATORY BASE STYLES
+   ============================================ */
+
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+}
+html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+}
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.slide {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.slide-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-height: 100%;
+    overflow: hidden;
+    padding: var(--slide-padding);
+}
+
+:root {
+    /* === Type Scale === */
+    --title-size: clamp(1.5rem, 5vw, 4rem);
+    --h2-size: clamp(1.25rem, 3.5vw, 2.5rem);
+    --h3-size: clamp(1rem, 2.5vw, 1.75rem);
+    --body-size: clamp(0.75rem, 1.5vw, 1.125rem);
+    --small-size: clamp(0.65rem, 1vw, 0.875rem);
+    --slide-padding: clamp(1rem, 5vw, 5rem);
+    --content-gap: clamp(0.5rem, 2vw, 2rem);
+    --element-gap: clamp(0.25rem, 1vw, 1rem);
+
+    /* === Vintage Editorial Palette === */
+    --bg-cream: #f5f3ee;
+    --text-primary: #1a1a1a;
+    --text-secondary: #666;
+    --text-tertiary: #aaa;
+    --accent-warm: #c8b89a;
+    --accent-border: #d6cfc5;
+    --label-color: #999;
+}
+
+/* ============================================
+   VINTAGE EDITORIAL THEME
+   ============================================ */
+
+body {
+    background: var(--bg-cream);
+    font-family: 'Work Sans', sans-serif;
+    color: var(--text-primary);
+}
+
+/* Section label — small caps style */
+.label {
+    font-family: 'Work Sans', sans-serif;
+    font-size: clamp(0.5rem, 0.85vw, 0.68rem);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--label-color);
+    font-weight: 500;
+    margin-bottom: var(--content-gap);
+}
+
+/* Display headline */
+.headline {
+    font-family: 'Fraunces', serif;
+    font-size: var(--title-size);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+}
+
+/* Sub-headline */
+.subhead {
+    font-family: 'Fraunces', serif;
+    font-size: var(--h2-size);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+}
+
+/* Italic serif tagline */
+.tagline {
+    font-family: 'Fraunces', serif;
+    font-size: var(--h3-size);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--text-secondary);
+    line-height: 1.45;
+}
+
+/* Body text */
+.body-text {
+    font-family: 'Work Sans', sans-serif;
+    font-size: var(--body-size);
+    color: var(--text-secondary);
+    line-height: 1.65;
+}
+
+/* Tag pills */
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(6px, 1vw, 10px);
+}
+.tag {
+    display: inline-flex;
+    align-items: center;
+    padding: clamp(4px, 0.5vw, 7px) clamp(10px, 1.5vw, 18px);
+    border: 1px solid var(--text-primary);
+    font-family: 'Work Sans', sans-serif;
+    font-size: clamp(0.5rem, 0.8vw, 0.65rem);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* Horizontal rule */
+.rule {
+    width: clamp(40px, 6vw, 80px);
+    height: 1px;
+    background: var(--accent-border);
+    margin: var(--element-gap) 0;
+}
+
+/* Bordered callout box */
+.callout-box {
+    border: 1.5px solid var(--text-primary);
+    padding: clamp(10px, 1.8vw, 20px) clamp(16px, 2.5vw, 32px);
+    display: inline-block;
+}
+
+/* ============================================
+   GEOMETRIC ACCENT ELEMENTS
+   ============================================ */
+
+.geo-circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent-border);
+    pointer-events: none;
+}
+.geo-dot {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--text-primary);
+    pointer-events: none;
+}
+.geo-line-h {
+    position: absolute;
+    height: 1px;
+    background: var(--accent-border);
+    pointer-events: none;
+}
+.geo-line-v {
+    position: absolute;
+    width: 1px;
+    background: var(--accent-border);
+    pointer-events: none;
+}
+
+/* ============================================
+   SLIDE NUMBER
+   ============================================ */
+
+.slide-num {
+    position: absolute;
+    bottom: clamp(1rem, 2.5vw, 2rem);
+    right: clamp(1rem, 5vw, 5rem);
+    font-family: 'Work Sans', sans-serif;
+    font-size: clamp(0.5rem, 0.75vw, 0.62rem);
+    letter-spacing: 0.15em;
+    color: var(--text-tertiary);
+}
+
+/* ============================================
+   NAV DOTS
+   ============================================ */
+
+.nav-dots {
+    position: fixed;
+    right: clamp(14px, 2vw, 26px);
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 100;
+}
+.nav-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-border);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border: none;
+    padding: 0;
+}
+.nav-dot.active {
+    background: var(--text-primary);
+    transform: scale(1.35);
+}
+
+/* ============================================
+   FEATURE GRID
+   ============================================ */
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(8px, 1.5vw, 18px);
+    margin-top: var(--content-gap);
+}
+.feature-card {
+    padding: clamp(12px, 1.8vw, 20px);
+    border: 1px solid var(--accent-border);
+    background: rgba(255, 255, 255, 0.45);
+}
+.feature-card-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: clamp(3px, 0.5vh, 6px);
+}
+.feature-card-sub {
+    font-family: 'Work Sans', sans-serif;
+    font-size: clamp(0.6rem, 1.05vw, 0.78rem);
+    color: var(--text-secondary);
+    line-height: 1.55;
+}
+
+/* ============================================
+   NUMBERED LIST ROW
+   ============================================ */
+
+.num-row {
+    display: flex;
+    gap: clamp(12px, 2vw, 24px);
+    align-items: flex-start;
+    padding: clamp(8px, 1.2vh, 14px) 0;
+    border-bottom: 1px solid var(--accent-border);
+}
+.num-row:last-child {
+    border-bottom: none;
+}
+.num-label {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(0.65rem, 1.1vw, 0.82rem);
+    color: var(--label-color);
+    min-width: 22px;
+    padding-top: 2px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* ============================================
+   LEFT-BORDER CALLOUT
+   ============================================ */
+
+.left-callout {
+    padding: clamp(10px, 1.8vw, 18px) clamp(14px, 2vw, 22px);
+}
+.left-callout-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(0.85rem, 1.8vw, 1.2rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: clamp(3px, 0.5vh, 6px);
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+@media (max-height: 700px) {
+    :root {
+        --slide-padding: clamp(0.75rem, 3vw, 2rem);
+        --content-gap: clamp(0.4rem, 1.5vw, 1rem);
+        --title-size: clamp(1.25rem, 4.5vw, 2.5rem);
+        --h2-size: clamp(1rem, 3vw, 1.75rem);
+    }
+}
+@media (max-height: 600px) {
+    :root {
+        --slide-padding: clamp(0.5rem, 2.5vw, 1.5rem);
+        --content-gap: clamp(0.3rem, 1vw, 0.75rem);
+        --title-size: clamp(1.1rem, 4vw, 2rem);
+        --body-size: clamp(0.7rem, 1.2vw, 0.95rem);
+    }
+    .nav-dots { display: none; }
+}
+@media (max-height: 500px) {
+    :root {
+        --slide-padding: clamp(0.4rem, 2vw, 1rem);
+        --title-size: clamp(1rem, 3.5vw, 1.5rem);
+        --h2-size: clamp(0.9rem, 2.5vw, 1.25rem);
+        --body-size: clamp(0.65rem, 1vw, 0.85rem);
+    }
+}
+@media (max-width: 600px) {
+    :root { --title-size: clamp(1.25rem, 7vw, 2.5rem); }
+    .feature-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.2s !important;
+    }
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- === NAV DOTS === -->
+<nav class="nav-dots" aria-label="Slide navigation">
+    <button class="nav-dot active" onclick="goToSlide(0)" aria-label="Slide 1: Title"></button>
+    <button class="nav-dot" onclick="goToSlide(1)" aria-label="Slide 2: Who I Am"></button>
+    <button class="nav-dot" onclick="goToSlide(2)" aria-label="Slide 3: Purpose"></button>
+    <button class="nav-dot" onclick="goToSlide(3)" aria-label="Slide 4: How I Operate"></button>
+    <button class="nav-dot" onclick="goToSlide(4)" aria-label="Slide 5: What People Come to Me For"></button>
+    <button class="nav-dot" onclick="goToSlide(5)" aria-label="Slide 6: How I Communicate"></button>
+    <button class="nav-dot" onclick="goToSlide(6)" aria-label="Slide 7: Close"></button>
+</nav>
+
+
+<!-- ============================================
+     SLIDE 1 — TITLE
+     ============================================ -->
+<section class="slide" id="slide-0">
+
+    <!-- Geometric accents -->
+    <div class="geo-circle" style="width: clamp(80px,13vw,170px); height: clamp(80px,13vw,170px); top: clamp(20px,4vh,55px); right: clamp(60px,9vw,130px);"></div>
+    <div class="geo-circle" style="width: clamp(26px,4vw,48px); height: clamp(26px,4vw,48px); top: clamp(30px,6vh,72px); right: clamp(82px,11.5vw,160px);"></div>
+    <div class="geo-dot" style="width: 5px; height: 5px; top: clamp(19px,3.5vh,44px); right: clamp(63px,8.8vw,128px);"></div>
+    <div class="geo-line-h" style="width: clamp(50px,9vw,120px); bottom: clamp(55px,9vh,100px); left: var(--slide-padding);"></div>
+    <div class="geo-dot" style="width: 4px; height: 4px; bottom: clamp(53px,8.5vh,98px); left: calc(var(--slide-padding) + clamp(50px,9vw,120px) + 10px);"></div>
+
+    <div class="slide-content" style="max-width: 860px;">
+        <div class="label reveal">Personal Brand</div>
+        <h1 class="headline reveal" style="font-size: clamp(2.5rem, 9vw, 6.5rem); margin-bottom: var(--element-gap);">Nate Miller</h1>
+        <div class="rule reveal"></div>
+        <p class="tagline reveal">Clarity. Trust. What comes next.</p>
+        <div class="tags reveal" style="margin-top: var(--content-gap);">
+            <span class="tag">HR Leader</span>
+            <span class="tag">Coach</span>
+            <span class="tag">Systems Thinker</span>
+        </div>
+    </div>
+
+    <div class="slide-num">01 / 07</div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 2 — WHO I AM
+     ============================================ -->
+<section class="slide" id="slide-1">
+
+    <div class="geo-line-v" style="height: 55%; top: 22%; right: 48%; opacity: 0.4;"></div>
+
+    <div class="slide-content">
+        <div class="label reveal">Beyond the title</div>
+        <h2 class="subhead reveal" style="margin-bottom: var(--content-gap);">Dad. Husband. Coach.</h2>
+
+        <div class="feature-grid" style="max-height: 55vh;">
+            <div class="feature-card reveal">
+                <div class="feature-card-title">Sports</div>
+                <div class="feature-card-sub">Football — playing and coaching. Where grit, systems, and culture all show up at once.</div>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-card-title">Technology</div>
+                <div class="feature-card-sub">Genuine curiosity about AI and what's next — not hype, but exploration with purpose.</div>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-card-title">Creativity</div>
+                <div class="feature-card-sub">Photography, design, reading, writing that goes somewhere. I notice things. I make things with intention.</div>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-card-title">Culture</div>
+                <div class="feature-card-sub">Sociology and geopolitics are the lenses I return to most. Travel. Context. How things actually work.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-num">02 / 07</div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 3 — PURPOSE
+     ============================================ -->
+<section class="slide" id="slide-2">
+
+    <!-- Faint background watermark number -->
+    <div aria-hidden="true" style="position: absolute; font-family: 'Fraunces', serif; font-size: clamp(180px,30vw,380px); font-weight: 900; color: rgba(26,26,26,0.038); right: -0.05em; bottom: -0.15em; line-height: 1; pointer-events: none; user-select: none;">03</div>
+
+    <div class="geo-circle" style="width: clamp(50px,7vw,90px); height: clamp(50px,7vw,90px); top: clamp(28px,5vh,58px); left: var(--slide-padding);"></div>
+    <div class="geo-dot" style="width: 4px; height: 4px; top: clamp(26px,4.5vh,56px); left: calc(var(--slide-padding) + clamp(50px,7vw,90px) + 12px);"></div>
+
+    <div class="slide-content" style="max-width: 880px;">
+        <div class="label reveal">Purpose</div>
+        <div class="rule reveal"></div>
+        <blockquote class="reveal" style="font-family: 'Fraunces', serif; font-size: clamp(1rem, 2.8vw, 2.1rem); font-weight: 700; line-height: 1.35; color: var(--text-primary); letter-spacing: -0.01em; font-style: italic; margin: var(--content-gap) 0;">
+            "I create clarity and cultivate trust so people and teams do great things now — and are ready for what's next."
+        </blockquote>
+        <div class="rule reveal" style="margin-top: var(--content-gap);"></div>
+        <p class="reveal" style="font-family: 'Work Sans', sans-serif; font-size: clamp(0.5rem, 0.85vw, 0.68rem); letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; color: var(--label-color); margin-top: var(--element-gap);">
+            Not a mission statement. How I try to show up.
+        </p>
+    </div>
+
+    <div class="slide-num">03 / 07</div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 4 — HOW I OPERATE
+     ============================================ -->
+<section class="slide" id="slide-3">
+
+    <div class="geo-dot" style="width: 5px; height: 5px; top: clamp(28px,5vh,52px); right: clamp(80px,13vw,170px);"></div>
+    <div class="geo-circle" style="width: clamp(34px,5vw,58px); height: clamp(34px,5vw,58px); bottom: clamp(45px,7vh,85px); right: clamp(60px,9vw,130px);"></div>
+    <div class="geo-line-h" style="width: clamp(30px,4vw,55px); bottom: clamp(62px,10vh,100px); right: calc(clamp(60px,9vw,130px) + clamp(34px,5vw,58px) + 10px); opacity: 0.6;"></div>
+
+    <div class="slide-content">
+        <div class="label reveal">How I work</div>
+        <h2 class="subhead reveal" style="margin-bottom: var(--content-gap);">The operating system.</h2>
+
+        <div style="display: flex; flex-direction: column; max-height: 55vh;">
+            <div class="num-row reveal">
+                <span class="num-label">01</span>
+                <p class="body-text" style="color: var(--text-primary); font-weight: 500;">I see through complexity and surface the insight that actually matters — so people know where to focus and how to move.</p>
+            </div>
+            <div class="num-row reveal">
+                <span class="num-label">02</span>
+                <p class="body-text" style="color: var(--text-primary); font-weight: 500;">I think in systems. I process iteratively. I connect what isn't yet obvious.</p>
+            </div>
+            <div class="num-row reveal">
+                <span class="num-label">03</span>
+                <p class="body-text" style="color: var(--text-primary); font-weight: 500;">Low ego. Healthy humility. I delegate with trust and give broad latitude.</p>
+            </div>
+            <div class="num-row reveal">
+                <span class="num-label">04</span>
+                <p class="body-text" style="color: var(--text-primary); font-weight: 500;">I name what I don't know instead of filling gaps with confidence I don't have.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-num">04 / 07</div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 5 — WHAT PEOPLE COME TO ME FOR
+     ============================================ -->
+<section class="slide" id="slide-4">
+
+    <div class="geo-line-h" style="width: clamp(45px,7vw,95px); top: clamp(38px,6vh,68px); right: var(--slide-padding); opacity: 0.5;"></div>
+    <div class="geo-dot" style="width: 4px; height: 4px; top: clamp(36px,5.8vh,66px); right: calc(var(--slide-padding) + clamp(45px,7vw,95px) + 8px);"></div>
+
+    <div class="slide-content">
+        <div class="label reveal">When to call</div>
+        <h2 class="subhead reveal" style="margin-bottom: var(--content-gap);">When something's stuck.</h2>
+
+        <div style="display: flex; flex-direction: column; gap: clamp(8px, 1.5vh, 16px); max-height: 55vh;">
+            <div class="left-callout reveal" style="border-left: 3px solid var(--text-primary);">
+                <p class="left-callout-title">A team that isn't executing.</p>
+                <p class="body-text">Something in the system is broken — structure, trust, clarity, or all three. I find it and fix it.</p>
+            </div>
+            <div class="left-callout reveal" style="border-left: 3px solid var(--accent-warm);">
+                <p class="left-callout-title">A person who isn't growing.</p>
+                <p class="body-text">Stuck, underperforming, or ready for more. I name the gap and walk alongside the path forward.</p>
+            </div>
+            <div class="left-callout reveal" style="border-left: 3px solid var(--accent-border);">
+                <p class="left-callout-title">What comes next.</p>
+                <p class="body-text">When it's time to think clearly about direction — for a team, a role, or a career. I help you find the signal in the noise.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-num">05 / 07</div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 6 — HOW I COMMUNICATE
+     ============================================ -->
+<section class="slide" id="slide-5">
+
+    <div class="geo-dot" style="width: 4px; height: 4px; top: clamp(28px,5vh,52px); left: 50%;"></div>
+    <div class="geo-circle" style="width: clamp(38px,5.5vw,66px); height: clamp(38px,5.5vw,66px); bottom: clamp(48px,7.5vh,88px); left: var(--slide-padding);"></div>
+
+    <div class="slide-content">
+        <div class="label reveal">How I communicate</div>
+        <h2 class="subhead reveal" style="margin-bottom: var(--content-gap);">Voice principles.</h2>
+
+        <div class="feature-grid" style="max-height: 55vh;">
+            <div class="feature-card reveal">
+                <div class="feature-card-title">Candor with Care</div>
+                <div class="feature-card-sub">Speak plainly. Protect dignity. Hard truths belong in the open — not weaponized.</div>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-card-title">Speed with Intentionality</div>
+                <div class="feature-card-sub">Move quickly, not sloppily. Clarity before acceleration reduces rework.</div>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-card-title">Confidence with Humility</div>
+                <div class="feature-card-sub">Offer a point of view. Stay open to better data. Decisive, not rigid.</div>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-card-title">Strategic with Human</div>
+                <div class="feature-card-sub">Connect work to purpose and outcomes. But always see the person first.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-num">06 / 07</div>
+</section>
+
+
+<!-- ============================================
+     SLIDE 7 — CLOSE
+     ============================================ -->
+<section class="slide" id="slide-6">
+
+    <!-- Large NM monogram watermark -->
+    <div aria-hidden="true" style="position: absolute; font-family: 'Fraunces', serif; font-size: clamp(130px,22vw,290px); font-weight: 900; color: rgba(26,26,26,0.035); left: -0.04em; bottom: -0.12em; line-height: 1; pointer-events: none; user-select: none;">NM</div>
+
+    <div class="geo-circle" style="width: clamp(100px,16vw,210px); height: clamp(100px,16vw,210px); top: clamp(18px,3.5vh,48px); right: clamp(40px,7vw,110px);"></div>
+    <div class="geo-dot" style="width: 5px; height: 5px; top: clamp(20px,4vh,50px); right: clamp(42px,7.5vw,113px);"></div>
+    <div class="geo-line-h" style="width: clamp(50px,7vw,90px); top: 50%; right: clamp(40px,7vw,110px); opacity: 0.35;"></div>
+
+    <div class="slide-content" style="max-width: 720px;">
+        <div class="label reveal">Let's connect</div>
+        <h2 class="subhead reveal" style="font-size: clamp(1.4rem, 4.5vw, 3.2rem); margin-bottom: var(--element-gap);">I'm usually where something is stuck.</h2>
+        <div class="rule reveal"></div>
+        <p class="tagline reveal" style="margin: var(--content-gap) 0;">If that's where you are too, reach out.</p>
+        <div class="reveal">
+            <div class="callout-box">
+                <span style="font-family: 'Work Sans', sans-serif; font-size: clamp(0.65rem, 1.2vw, 0.9rem); letter-spacing: 0.06em; font-weight: 500;">nathan.a.miller@gmail.com</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-num">07 / 07</div>
+</section>
+
+
+<script>
+/* === NAVIGATION === */
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.nav-dot');
+
+function goToSlide(index) {
+    slides[index].scrollIntoView({ behavior: 'smooth' });
+}
+
+/* === STAGGERED REVEAL via IntersectionObserver === */
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            /* Update active nav dot */
+            const idx = Array.from(slides).indexOf(entry.target);
+            dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+
+            /* Trigger staggered reveal */
+            entry.target.querySelectorAll('.reveal').forEach((el, i) => {
+                setTimeout(() => el.classList.add('visible'), i * 90);
+            });
+        }
+    });
+}, { threshold: 0.5 });
+
+slides.forEach(s => observer.observe(s));
+
+/* === KEYBOARD NAVIGATION === */
+document.addEventListener('keydown', (e) => {
+    const current = Array.from(slides).findIndex(s => {
+        const r = s.getBoundingClientRect();
+        return r.top >= -80 && r.top < window.innerHeight * 0.5;
+    });
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        if (current < slides.length - 1) goToSlide(current + 1);
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        if (current > 0) goToSlide(current - 1);
+    }
+});
+</script>
+
+</body>
+</html>
